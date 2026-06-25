@@ -1,23 +1,29 @@
-from flask import Flask,render_template,request,jsonify
-import json,os
+from flask import Flask, render_template, request, jsonify
+import json
+import os
+
 app = Flask(__name__)
 DATA_FILE = "data.json"
-# 自动创建数据文件
+
+# 初始化空数据文件
 if not os.path.exists(DATA_FILE):
-    json.dump([], open(DATA_FILE,"w",encoding="utf-8"), ensure_ascii=False)
+    json.dump([], open(DATA_FILE, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
 
-# 问卷首页
-@app.route("/")
+@app.route('/')
 def index():
-    return render_template("index.html")
+    return render_template('index.html')
 
-# 接收提交数据
-@app.route("/submit", methods=["POST"])
+# 问卷数据提交接口
+@app.route('/submit', methods=["POST"])
 def submit():
-    all_data = json.load(open(DATA_FILE,"r",encoding="utf-8"))
-    all_data.append(request.get_json())
-    json.dump(all_data, open(DATA_FILE,"w",encoding="utf-8"), indent=2, ensure_ascii=False)
-    return jsonify({"msg":"提交成功"})
+    try:
+        new_info = request.get_json()
+        all_data = json.load(open(DATA_FILE, "r", encoding="utf-8"))
+        all_data.append(new_info)
+        json.dump(all_data, open(DATA_FILE, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
+        return jsonify({"code":200, "msg":"成功"})
+    except Exception as err:
+        return jsonify({"code":500, "msg":"失败", "error":str(err)}),500
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     app.run(debug=True)
