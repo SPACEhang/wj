@@ -60,7 +60,6 @@
 
         <div class="btn-group">
             <button class="submit-btn" type="submit">提交问卷</button>
-            <!-- 点击直接打开你生成的数据分析汇总图表 -->
             <button class="data-btn" type="button" onclick="window.open('数据分析汇总.png')">查看数据分析统计</button>
         </div>
     </form>
@@ -70,32 +69,8 @@
 const form = document.getElementById('surveyForm');
 form.addEventListener('submit',(e)=>{
     e.preventDefault();
-    alert('模拟提交成功！线上静态页面无法保存数据，请本地运行Python服务实现数据存储');
+    alert('问卷提交模拟成功！线上静态页面仅展示页面，本地运行Python后端可实现真实数据存储');
     form.reset();
-})
-    // 处理单选输入
-    for(let [key,val] of formData){
-        submitData[key] = val;
-    }
-    // 多选单独处理
-    let barrierList = [];
-    document.querySelectorAll('input[name="barrier"]:checked').forEach(item=>{
-        barrierList.push(item.value);
-    })
-    submitData.barrier = barrierList;
-
-    // 本地后端提交接口（线上GitHub静态页无法保存数据，仅本地运行生效）
-    const res = await fetch('/submit',{
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body:JSON.stringify(submitData)
-    })
-    if(res.ok){
-        alert('问卷提交成功，感谢参与！');
-        form.reset();
-    }else{
-        alert('提交失败，仅本地Python服务运行时可提交数据');
-    }
 })
 </script>
 </body>
