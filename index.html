@@ -68,10 +68,11 @@
 
 <script>
 const form = document.getElementById('surveyForm');
-form.addEventListener('submit',async (e)=>{
+form.addEventListener('submit',(e)=>{
     e.preventDefault();
-    const formData = new FormData(form);
-    let submitData = {};
+    alert('模拟提交成功！线上静态页面无法保存数据，请本地运行Python服务实现数据存储');
+    form.reset();
+})
     // 处理单选输入
     for(let [key,val] of formData){
         submitData[key] = val;
