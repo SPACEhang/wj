@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>大学生追剧习惯调查</title>
+<style>
+.wrap{width:580px;margin:20px auto;padding:20px;border:1px #ddd solid}
+.q{margin:16px 0}
+button{width:100%;padding:10px;background:#2277cc;color:white;border:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h2 align="center">大学生课余追剧习惯调查问卷</h2>
+<form id="survey">
+  <div class="q">
+    <label>1.你的性别：</label>
+    <input type="radio" name="gender" value="男">男
+    <input type="radio" name="gender" value="女">女
+  </div>
+  <div class="q">
+    <label>2.每周追剧天数：</label>
+    <select name="day">
+      <option>几乎不看</option>
+      <option>1-3天</option>
+      <option>4-7天</option>
+    </select>
+  </div>
+  <div class="q">
+    <label>3.偏好剧集类型：</label>
+    <select name="type">
+      <option>影视剧</option>
+      <option>综艺</option>
+      <option>动漫</option>
+    </select>
+  </div>
+  <div class="q">
+    <label>4.追剧是否影响学习：</label>
+    <select name="effect">
+      <option>严重影响</option>
+      <option>轻微影响</option>
+      <option>无影响</option>
+    </select>
+  </div>
+  <button type="submit">提交问卷</button>
+</form>
+</div>
+<script>
+document.getElementById("survey").addEventListener("submit",async e=>{
+  e.preventDefault();
+  const form=Object.fromEntries(new FormData(e.target));
+  await fetch("/submit",{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify(form)
+  })
+  alert("问卷提交成功！");
+  e.target.reset();
+})
+</script>
+</body>
+</html>
